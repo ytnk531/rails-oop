@@ -1,7 +1,5 @@
 class PaymentsController < ApplicationController
-  def payday
-  end
+  def payday; end
 
-  def add
-  end
+  def add; end
 end

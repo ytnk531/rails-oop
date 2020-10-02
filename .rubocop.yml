@@ -1,0 +1,21 @@
+AllCops:
+  Exclude:
+    - bin/*
+    - node_modules/**/*
+  NewCops: enable
+
+Style/Documentation:
+  Include:
+    - "app/models/**/*"
+
+Style/BlockComments:
+  Exclude:
+    - "spec/spec_helper.rb"
+
+Layout/LineLength:
+  AutoCorrect: true
+  Max: 80
+  IgnoredPatterns: ['\A( *)#']
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
