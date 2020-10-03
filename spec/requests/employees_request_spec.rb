@@ -61,7 +61,7 @@ RSpec.describe 'Employees', type: :request do
 
   describe 'DELETE' do
     it 'returns http success' do
-      Empoyee.create(id: 1)
+      Employee.create(id: 1)
       Employee.create(id: 2)
       delete '/employees/1'
 
@@ -72,11 +72,20 @@ RSpec.describe 'Employees', type: :request do
 
   describe 'POST /employees/:id/timecards' do
     it 'returns http success' do
-      Empoyee.create(id: 1)
-      Employee.create(id: 2)
-      delete '/employees/1'
+      fee = HouryFee.new(hourly_rate: 200)
+      Employee.create(id: 1, fee: fee)
+      post '/employees/1/timecards', params: {
+        timecard: {
+          date: '2020/1/1',
+          hours: 8
+        }
+      }
 
-      expect(Employee.count).to eq 1
+      expect(Timecard.first).to have_attributes(
+        fee: fee,
+        date: '2020/1/1'.in_time_zone,
+        hours: 8
+      )
       expect(response).to have_http_status(:success)
     end
   end
