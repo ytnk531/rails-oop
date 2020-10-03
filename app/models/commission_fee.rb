@@ -1,0 +1,2 @@
+class CommissionFee < Fee
+end

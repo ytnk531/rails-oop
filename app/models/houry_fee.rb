@@ -1,0 +1,2 @@
+class HouryFee < Fee
+end

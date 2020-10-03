@@ -8,6 +8,10 @@ Style/Documentation:
   Include:
     - "app/models/**/*"
 
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"
+
 Style/BlockComments:
   Exclude:
     - "spec/spec_helper.rb"
