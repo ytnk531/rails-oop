@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_03_003349) do
+ActiveRecord::Schema.define(version: 2020_10_03_200347) do
 
   create_table "employees", force: :cascade do |t|
     t.string "name"
@@ -30,5 +30,24 @@ ActiveRecord::Schema.define(version: 2020_10_03_003349) do
     t.index ["employee_id"], name: "index_fees_on_employee_id"
   end
 
+  create_table "sales_receipts", force: :cascade do |t|
+    t.date "date"
+    t.integer "amount"
+    t.integer "fee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["fee_id"], name: "index_sales_receipts_on_fee_id"
+  end
+
+  create_table "timecards", force: :cascade do |t|
+    t.integer "fee_id", null: false
+    t.date "date"
+    t.integer "hours"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["fee_id"], name: "index_timecards_on_fee_id"
+  end
+
   add_foreign_key "fees", "employees"
+  add_foreign_key "timecards", "fees"
 end
