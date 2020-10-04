@@ -70,6 +70,81 @@ RSpec.describe 'Employees', type: :request do
     end
   end
 
+  describe 'PATCH /employees/:id/' do
+    it 'updates Name' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Name', name: 'newName' }
+      expect(Employee.find(1)).to have_attributes(name: 'newName')
+    end
+
+    it 'updates Address' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Address',
+                                      address: 'newAddress' }
+      expect(Employee.find(1)).to have_attributes(address: 'newAddress')
+    end
+
+    it 'updates Hourly' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Hourly', hourly_rate: 123 }
+      expect(Employee.find(1).fee).to have_attributes(hourly_rate: 123)
+    end
+
+    it 'updates Salaried' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Salaried', salary: 102 }
+      expect(Employee.find(1).fee).to have_attributes(monthly_salary: 102)
+    end
+
+    it 'updates Commission' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Commission', salary: 102,
+                                      rate: 12 }
+      expect(Employee.find(1).fee).to have_attributes(monthly_salary: 102,
+                                                      commission_rate: 12)
+    end
+
+    it 'updates Hold' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Hold' }
+      expect(Employee.find(1).payment_method).to be_a HoldPaymentMethod
+    end
+
+    it 'updates Direct' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Direct', bank: 'good bank',
+                                      account: 'good bank account' }
+      expect(Employee.find(1).payment_method).to have_attributes(
+        bank: 'good bank', account: 'good bank account'
+      )
+    end
+
+    it 'updates Mail' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Mail', address: 'ad' }
+      expect(Employee.find(1).payment_method).to have_attributes(address: 'ad')
+    end
+
+    it 'updates Member' do
+      Employee.create(id: 1, name: 'National')
+      patch '/employees/1', params: { command: 'Member', rate: 400 }
+      expect(Employee.find(1).affiliation).to have_attributes(due: 400)
+    end
+
+    it 'updates NoMember' do
+      Employee.create(id: 1, name: 'National', affiliation: Affiliation.new)
+      patch '/employees/1', params: { command: 'NoMember' }
+      expect(Employee.find(1).affiliation).to be_nil
+    end
+  end
+
+  describe 'POST /payday' do
+    it 'returns http success' do
+      post '/payday', params: { date: '2020/1/1' }
+      expect(response).to have_http_status :success
+    end
+  end
+
   describe 'POST /employees/:id/timecards' do
     it 'returns http success' do
       fee = HouryFee.new(hourly_rate: 200)

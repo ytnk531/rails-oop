@@ -1,0 +1,2 @@
+class HoldPaymentMethod < PaymentMethod
+end

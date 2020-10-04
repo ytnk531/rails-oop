@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_03_200347) do
+ActiveRecord::Schema.define(version: 2020_10_04_092040) do
+
+  create_table "affiliations", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "member_id"
+    t.integer "due"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_affiliations_on_employee_id"
+  end
 
   create_table "employees", force: :cascade do |t|
     t.string "name"
@@ -30,6 +39,17 @@ ActiveRecord::Schema.define(version: 2020_10_03_200347) do
     t.index ["employee_id"], name: "index_fees_on_employee_id"
   end
 
+  create_table "payment_methods", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "address"
+    t.string "bank"
+    t.string "account"
+    t.string "type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_payment_methods_on_employee_id"
+  end
+
   create_table "sales_receipts", force: :cascade do |t|
     t.date "date"
     t.integer "amount"
@@ -37,6 +57,14 @@ ActiveRecord::Schema.define(version: 2020_10_03_200347) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["fee_id"], name: "index_sales_receipts_on_fee_id"
+  end
+
+  create_table "service_charges", force: :cascade do |t|
+    t.integer "affiliation_id", null: false
+    t.integer "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["affiliation_id"], name: "index_service_charges_on_affiliation_id"
   end
 
   create_table "timecards", force: :cascade do |t|
@@ -48,6 +76,9 @@ ActiveRecord::Schema.define(version: 2020_10_03_200347) do
     t.index ["fee_id"], name: "index_timecards_on_fee_id"
   end
 
+  add_foreign_key "affiliations", "employees"
   add_foreign_key "fees", "employees"
+  add_foreign_key "payment_methods", "employees"
+  add_foreign_key "service_charges", "affiliations"
   add_foreign_key "timecards", "fees"
 end
