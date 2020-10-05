@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'paydays/create'
+  resources :paydays
   post 'payments/payday'
   resources :employees do
     resources :timecards

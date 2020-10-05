@@ -138,9 +138,22 @@ RSpec.describe 'Employees', type: :request do
     end
   end
 
-  describe 'POST /payday' do
+  describe 'POST /paydays' do
     it 'returns http success' do
-      post '/payday', params: { date: '2020/1/1' }
+      Employee.create(
+        affiliation: Affiliation.new(
+          due: 123,
+          service_charges: [
+            ServiceCharge.new(amount: 100)
+          ]
+        ),
+        fee: HouryFee.new(hourly_rate: 120,
+                          timecards: [
+                            Timecard.new(hours: 8)
+                          ]),
+        payment_method: HoldPaymentMethod.new
+      )
+      post '/paydays', params: { date: '2020/1/1' }
       expect(response).to have_http_status :success
     end
   end
