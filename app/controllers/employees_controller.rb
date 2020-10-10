@@ -1,6 +1,6 @@
 class EmployeesController < ApplicationController
   def create
-    command = Command.build_create(employee_params)
+    command = CreateCommand.build(employee_params)
     command.run
   end
 
@@ -10,7 +10,7 @@ class EmployeesController < ApplicationController
   end
 
   def update
-    command = Command.build(params[:command], params)
+    command = ChangeCommand.build(params[:command], params)
     command.run
   end
 
