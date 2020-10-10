@@ -30,7 +30,8 @@ module CreateCommand
         id: @employee_id,
         name: @name,
         address: @address,
-        fee: fee
+        fee: fee,
+        payment_method: HoldPaymentMethod.new
       )
       e.save!
     end

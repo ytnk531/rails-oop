@@ -48,6 +48,7 @@ module ChangeCommand
     end
 
     def change(employee)
+      employee.fee&.destroy
       employee.update!(fee: HouryFee.new(hourly_rate: @new_rate))
     end
   end
@@ -58,6 +59,7 @@ module ChangeCommand
     end
 
     def change(employee)
+      employee.fee&.destroy
       employee.update(fee: MonthlyFee.new(monthly_salary: @new_salary))
     end
   end
@@ -69,6 +71,7 @@ module ChangeCommand
     end
 
     def change(employee)
+      employee.fee&.destroy
       employee.update(fee: CommissionFee.new(
         monthly_salary: @new_salary,
         commission_rate: @new_commission_rate
@@ -78,6 +81,7 @@ module ChangeCommand
 
   class ChangeEmployeeHoldCommand < ChangeEmployeeCommand
     def change(employee)
+      employee.payment_method&.destroy
       employee.update(payment_method: HoldPaymentMethod.new)
     end
   end
@@ -89,6 +93,7 @@ module ChangeCommand
     end
 
     def change(employee)
+      employee.payment_method&.destroy
       employee.update(payment_method: DirectPaymentMethod.new(bank: @bank,
                                                               account: @account))
     end
@@ -100,6 +105,7 @@ module ChangeCommand
     end
 
     def change(employee)
+      employee.payment_method&.destroy
       employee.update(payment_method: MailPaymentMethod.new(address: @address))
     end
   end
