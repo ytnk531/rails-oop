@@ -7,11 +7,4 @@ RSpec.describe 'Payments', type: :request do
       expect(response).to have_http_status(:success)
     end
   end
-
-  describe 'GET /add_emp' do
-    it 'returns http success' do
-      post '/payments/add', params: {}
-      expect(response).to have_http_status(:success)
-    end
-  end
 end

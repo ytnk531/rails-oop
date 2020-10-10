@@ -5,4 +5,12 @@ class Affiliation < ApplicationRecord
   def cost
     service_charges.sum(:amount) + due
   end
+
+  def self.nothing
+    Struct.new(:cost) do
+      def nil?
+        true
+      end
+    end.new(0)
+  end
 end

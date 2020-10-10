@@ -1,7 +1,11 @@
 class Employee < ApplicationRecord
   has_one :fee
-  has_one :affiliation
+  has_one :plane_affiliation, class_name: 'Affiliation'
   has_one :payment_method
+
+  def affiliation=(a)
+    self.plane_affiliation = a
+  end
 
   def self.payday(date)
     Employee.all.filter { _1.payday?(date) }
@@ -16,5 +20,9 @@ class Employee < ApplicationRecord
 
   def payday?(date)
     fee.payday?(date)
+  end
+
+  def affiliation
+    plane_affiliation || Affiliation.nothing
   end
 end
