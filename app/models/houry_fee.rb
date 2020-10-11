@@ -10,6 +10,10 @@ class HouryFee < Fee
     end
   end
 
+  def schedule
+    @schedule ||= WeeklySchedule.new
+  end
+
   private
 
   def  cost(hour)

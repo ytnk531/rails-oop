@@ -1,6 +1,6 @@
 class PaydaysController < ApplicationController
   def create
-    employees = Employee.payday(params[:date])
+    employees = Employee.payday(Date.parse(params[:date]))
     employees.each(&:pay)
   end
 end

@@ -19,7 +19,11 @@ class Employee < ApplicationRecord
   end
 
   def payday?(date)
-    fee.payday?(date)
+    schedule.payday?(date)
+  end
+
+  def schedule
+    Schedule.build(self)
   end
 
   def affiliation
